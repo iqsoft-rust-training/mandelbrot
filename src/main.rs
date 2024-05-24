@@ -1,6 +1,6 @@
 #![warn(rust_2018_idioms)]
 #![allow(elided_lifetimes_in_paths)]
-
+use std::time::Instant;
 use num::Complex;
 
 /// Try to determine if `c` is in the Mandelbrot set, using at most `limit`
@@ -173,6 +173,7 @@ fn main() {
     let threads = 8;
     let rows_per_band = bounds.1 / threads + 1;
 
+    let start_time = Instant::now();
     {
         let bands: Vec<&mut [u8]> =
             pixels.chunks_mut(rows_per_band * bounds.0).collect();
@@ -193,7 +194,10 @@ fn main() {
             }
         }).unwrap();
     }
+    let elapsed_time = start_time.elapsed();
 
     write_image(&args[1], &pixels, bounds)
         .expect("error writing PNG file");
+
+    println!("Done in {} sec {} msec! Picture is written to {}\n", elapsed_time.as_secs(), elapsed_time.subsec_millis(), args[1]);
 }
