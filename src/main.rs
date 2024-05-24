@@ -1,6 +1,6 @@
 #![warn(rust_2018_idioms)]
 #![allow(elided_lifetimes_in_paths)]
-
+use std::time::Instant;
 use num::Complex;
 
 /// Try to determine if `c` is in the Mandelbrot set, using at most `limit`
@@ -170,8 +170,12 @@ fn main() {
 
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
+    let start_time = Instant::now();    
     render(&mut pixels, bounds, upper_left, lower_right);
+    let elapsed_time = start_time.elapsed();
 
     write_image(&args[1], &pixels, bounds)
         .expect("error writing PNG file");
+
+    println!("Done in {} sec {} msec! Picture is written to {}\n", elapsed_time.as_secs(), elapsed_time.subsec_millis(), args[1]);
 }
