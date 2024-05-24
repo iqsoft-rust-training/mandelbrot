@@ -1,6 +1,6 @@
 #![warn(rust_2018_idioms)]
 #![allow(elided_lifetimes_in_paths)]
-
+use std::time::Instant;
 use num::Complex;
 use rayon::prelude::*;
 
@@ -190,8 +190,9 @@ fn main() {
                 render(band, band_bounds, band_upper_left, band_lower_right);
             });
     }
-
+    let elapsed_time = start_time.elapsed();
     write_image(&args[1], &pixels, bounds)
         .expect("error writing PNG file");
 
+    println!("Done in {} sec {} msec! Picture is written to {}\n", elapsed_time.as_secs(), elapsed_time.subsec_millis(), args[1]);
 }
