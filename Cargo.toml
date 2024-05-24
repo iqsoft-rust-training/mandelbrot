@@ -5,6 +5,8 @@ authors = ["Jim Blandy <jimb@red-bean.com>"]
 edition = "2018"
 
 [dependencies]
+structopt = "0.3"
+crossbeam = "0.8"
 num = "0.4"
 image = "0.13.0"
 rayon = "1"
