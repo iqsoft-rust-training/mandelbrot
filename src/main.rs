@@ -172,11 +172,12 @@ fn main() {
     let mut pixels = vec![0; bounds.0 * bounds.1];
 
     // Scope of slicing up `pixels` into horizontal bands.
+    let start_time = Instant::now();
     {
         let bands: Vec<(usize, &mut [u8])> = pixels
             .chunks_mut(bounds.0)
             .enumerate()
-            .collect();
+            .collect(); 
 
         bands.into_par_iter()
             .for_each(|(i, band)| {
@@ -192,4 +193,5 @@ fn main() {
 
     write_image(&args[1], &pixels, bounds)
         .expect("error writing PNG file");
+
 }
